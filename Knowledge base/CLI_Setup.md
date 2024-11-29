@@ -48,9 +48,9 @@ docker: error during connect: this error may indicate that the docker daemon is 
 Ensure Docker Desktop is running before executing the command
 Once Docker is running, retry the command.
 
-    ```PowerShell
-    docker run --name supra_cli -v <YOUR_PATH>:/supra/configs -e SUPRA_HOME=/supra/configs --net=host -itd asia-docker.pkg.dev/supra-devnet-misc/supra-testnet/validator-node:v6.3.0
-    ```
+```PowerShell
+docker run --name supra_cli -v <YOUR_PATH>:/supra/configs -e SUPRA_HOME=/supra/configs --net=host -itd asia-docker.pkg.dev/supra-devnet-misc/supra-testnet/validator-node:v6.3.0
+```
 
 If the issue persists: - Confirm your Docker installation is complete. - Check that the Docker service is properly configured to start.
 
