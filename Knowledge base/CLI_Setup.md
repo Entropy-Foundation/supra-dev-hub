@@ -2,7 +2,14 @@
 
 ---
 
-## ISSUE SUMMARY: Supra Command Not Executing
+## Table of Contents
+
+1. [Supra Command Not Executing](#supra-command-not-executing)
+2. [Docker Daemon Not Running](#docker-daemon-not-running)
+
+---
+
+### **Issue: Supra Command Not Executing**
 
 The `supra` command does not run as expected.
 
@@ -31,7 +38,9 @@ supra
 **Link to Full Details:**
 N/A
 
-## ISSUE SUMMARY: Docker Daemon Not Running
+---
+
+### **Issue: Docker Daemon Not Running**
 
 When running the following command:
 
