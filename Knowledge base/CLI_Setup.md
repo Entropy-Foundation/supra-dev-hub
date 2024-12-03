@@ -9,7 +9,7 @@
 
 ---
 
-### **Issue: Supra Command Not Executing**
+<font color= "red">### **Issue: Supra Command Not Executing**</font>
 
 The `supra` command does not run as expected.
 
@@ -40,7 +40,7 @@ N/A
 
 ---
 
-### **Issue: Docker Daemon Not Running**
+<font color= "red">### **Issue: Docker Daemon Not Running**</font>
 
 When running the following command:
 

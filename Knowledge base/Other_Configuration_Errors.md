@@ -8,7 +8,7 @@
 
 ---
 
-### **Issue: Path Issue When Binding Volumes on Windows**
+<font color= "red">### **Issue: Path Issue When Binding Volumes on Windows**</font>
 
 Docker requires an absolute path for binding volumes, but <YOUR_PATH> is not fully rooted, causing the bind to fail.
 When verifying the Docker container configuration, the mount type is set to "Type": "volumes" instead of "Type": "bind".
