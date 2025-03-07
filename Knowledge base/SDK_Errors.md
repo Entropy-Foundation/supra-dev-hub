@@ -16,7 +16,7 @@ NOTE: Kindly follow the below format to get started with reporting the issues!
 ## ISSUE SUMMARY: Client-side integration using supra sdk
 Integration for Module deployed on supra and integrated with client-side using supra sdk
 
-### ➥ SOLUTION SUMMARY: 
+### ➥ SOLUTION SUMMARY:
 Relevant Links:
 - https://sdk-docs.supra.com/classes/SupraClient.html
 - https://github.com/Entropy-Foundation/supra-l1-sdk/blob/master/src/example.ts
@@ -31,7 +31,7 @@ In aptos sdk we have aptos.getAccountModule to check the module name do we have 
 The get account info function here returns the accounts auth key and sequence number:
 - https://sdk-docs.supra.com/classes/SupraClient.html#getAccountInfo
 
-also u can check deployed module via API:
+Also u can check deployed module via API:
 
 ```
 https://rpc-testnet.supra.com/rpc/v1/accounts/{address}/modules/{module_name}
@@ -40,12 +40,12 @@ https://rpc-testnet.supra.com/rpc/v1/accounts/{address}/modules/{module_name}
 
 ## ISSUE SUMMARY: Verify Signature
 
-how to verify signature using supra SDK?
+How to verify signature using supra sdk?
 
 ### ➥ SOLUTION SUMMARY:
 - https://sdk-docs.supra.com/classes/SupraAccount.html#verifySignature
 
-Here is a link to the verifySignature function code from the `SupraAccount` class (imported from AptosAccount): 
+Here is a link to the verifySignature function code from the `SupraAccount` class (imported from AptosAccount):
 
 - https://github.com/Entropy-Foundation/aptos-core/blob/c5087137d9c9a85975c368894a24ae647fc49285/ecosystem/typescript/sdk/src/account/aptos_account.ts#L170C1-L179C4
 
@@ -60,7 +60,7 @@ Update the `tsconfig` file, Change `moduleResolution` from `bundler` to `node`
 ```
 "moduleResolution": "node",
 ```
-It will still have a warning, but The build will be working. 
+It will still have a warning, but the build will be working.
 
 Below is the warning you will get:
 ```
@@ -71,7 +71,7 @@ As a result, the code may not run as expected or may cause runtime errors.
 Import trace for requested module:
 ./src/libs/supra.ts
 ```
-Supra have made changes in the support branch as well for this so devs don't have to do this: 
+Supra have made changes in the support branch as well for this so devs don't have to do this:
 - https://github.com/Entropy-Foundation/supra-l1-sdk/tree/support-ledger-wallet
 
 Devs can check the commits of 9th Dec'24 to check the changes made in that branch to replicate the same in your side of the code.
@@ -79,37 +79,35 @@ Devs can check the commits of 9th Dec'24 to check the changes made in that branc
 ## ISSUE SUMMARY: TYPE_RESOLUTION_FAILURE
 The below does not allow me to pass a string for the type argument. How should I format it there?
 
-```
-let rawBuyTransactiopn = await supraClient.createRawTxObject(
-    senderAccount.address(),
-    (
-      await supraClient.getAccountInfo(senderAccount.address())
-    ).sequence_number,
-    config.DEX_CONTRACT,
-    "router",
-    "swap_exact_input",
-    [],
-    []
-  );
+```TypeScript
+let rawBuyTransaction = await supraClient.createRawTxObject(
+  senderAccount.address(),
+  (await supraClient.getAccountInfo(senderAccount.address())).sequence_number,
+  config.DEX_CONTRACT,
+  "router",
+  "swap_exact_input",
+  [],
+  []
+);
 ```
 
 ### ➥ SOLUTION SUMMARY:
 Try the below approach
 
-```
-  // To create a serialized raw transaction
-  let supraCoinTransferSerializedRawTransaction =
-  await supraClient.createSerializedRawTxObject(
-    senderAccount.address(),
-    (
-      await supraClient.getAccountInfo(senderAccount.address())
-    ).sequence_number,
-    "0000000000000000000000000000000000000000000000000000000000000001",
-    "supra_account",
-    "transfer_coins",
-    [new TxnBuilderTypes.TypeTagParser("0x1::supra_coin::SupraCoin").parseTypeTag()],
-    [new HexString("0x4d58f6c00e4902d28c4dfada7bbe46daf19e73033b0b05f02b54179353fa737b").toUint8Array(), BCS.bcsSerializeUint64(1000)]
-  );
+```TypeScript
+// To create a serialized raw transaction
+let supraCoinTransferSerializedRawTransaction =
+await supraClient.createSerializedRawTxObject(
+  senderAccount.address(),
+  (
+    await supraClient.getAccountInfo(senderAccount.address())
+  ).sequence_number,
+  "0000000000000000000000000000000000000000000000000000000000000001",
+  "supra_account",
+  "transfer_coins",
+  [new TxnBuilderTypes.TypeTagParser("0x1::supra_coin::SupraCoin").parseTypeTag()],
+  [new HexString("0x4d58f6c00e4902d28c4dfada7bbe46daf19e73033b0b05f02b54179353fa737b").toUint8Array(), BCS.bcsSerializeUint64(1000)]
+);
 ```
 
 
@@ -119,50 +117,47 @@ Try the below approach
 If TxnBuilderTypes cannot be imported from the SDK, then try the import below:
 `
 
-```
-import { SupraAccount, HexString, SupraClient, BCS, TxnBuilderTypes } from "supra-l1-sdk";
+```TypeScript
+import {
+  SupraAccount,
+  HexString,
+  SupraClient,
+  BCS,
+  TxnBuilderTypes,
+} from "supra-l1-sdk";
 
-async function main(){
+async function main() {
+  const senderAccount = new SupraAccount(Buffer.from("", "hex"));
 
-  //console.log(new TxnBuilderTypes.TypeTagParser("0x1::supra_coin::SupraCoin").parseTypeTag());
-  //process.exit(0);
-
-    const senderAccount = new SupraAccount(Buffer.from("", "hex"));
-
-    
-  let supraClient = await SupraClient.init(
-    // "http://localhost:27001/"
-    "https://rpc-testnet.supra.com/"
-  );
-  
+  let supraClient = await SupraClient.init("https://rpc-testnet.supra.com/");
 
   // To create a serialized raw transaction
   let supraCoinTransferSerializedRawTransaction =
-  await supraClient.createSerializedRawTxObject(
-    senderAccount.address(),
-    (
-      await supraClient.getAccountInfo(senderAccount.address())
-    ).sequence_number,
-    "0000000000000000000000000000000000000000000000000000000000000001",
-    "supra_account",
-    "transfer_coins",
-    [new TxnBuilderTypes.TypeTagParser("0x1::supra_coin::SupraCoin").parseTypeTag()],
-    [new HexString("").toUint8Array(), BCS.bcsSerializeUint64(1000)]
-  );
-
+    await supraClient.createSerializedRawTxObject(
+      senderAccount.address(),
+      (await supraClient.getAccountInfo(senderAccount.address())).sequence_number,
+      "0000000000000000000000000000000000000000000000000000000000000001",
+      "supra_account",
+      "transfer_coins",
+      [
+        new TxnBuilderTypes.TypeTagParser(
+          "0x1::supra_coin::SupraCoin"
+        ).parseTypeTag(),
+      ],
+      [new HexString("").toUint8Array(), BCS.bcsSerializeUint64(1000)]
+    );
 
   // To send serialized transaction
   console.log(
-  await supraClient.sendTxUsingSerializedRawTransaction(
-    senderAccount,
-    supraCoinTransferSerializedRawTransaction,
-    {
-      enableTransactionSimulation: true,
-      enableWaitForTransaction: true,
-    }
-  )
+    await supraClient.sendTxUsingSerializedRawTransaction(
+      senderAccount,
+      supraCoinTransferSerializedRawTransaction,
+      {
+        enableTransactionSimulation: true,
+        enableWaitForTransaction: true,
+      }
+    )
   );
-  
 }
 
 main();
