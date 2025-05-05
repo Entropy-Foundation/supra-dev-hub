@@ -25,9 +25,9 @@ The code snippet in here demonstrate that how can we create tx payload for entry
 
 So we should convert the move function call to rawTransaction object  and pass it to the data that defined on your docs, and we ignore the sequence_number like metamask ignore the nonce and the wallet side will process that.
 
-For raw transaction, Process to create a `rawTx` and `serializedRawTx` is almost similar
+For raw a transaction, the process to create a `rawTx` and `serializedRawTx` is almost similar
 
-```PowerShell
+```TypeScript
      // To send serialized transaction
   console.log(
     await supraClient.sendTxUsingSerializedRawTransaction(
@@ -38,22 +38,22 @@ For raw transaction, Process to create a `rawTx` and `serializedRawTx` is almost
         enableWaitForTransaction: true,
       }
     )
-  ); 
+  );
 ```
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-## ISSUE SUMMARY: sign a message using starkey wallet
-### Couldn't find any docs regarding sign a message using starkey wallet, any example code that I can start with?
+## ISSUE SUMMARY: Sign a message using StarKey Wallet
+### Couldn't find any docs regarding sign a message using Starkey Wallet, any example code that I can start with?
 
 ### ➥ SOLUTION SUMMARY:
 Please update to Min V 1.1.24, This Version and Above includes the signMessage function.
-Here's a code snippet for the help: 
+Here's a code snippet for the help:
 
 ```Javascript
 // Javascript
 import nacl from "tweetnacl";
 
-const haxString = '0x' + Buffer.from(signMessage, 'utf8').toString('hex')
-const response = await supraProvider.signMessage({message:haxString})
+const hexString = '0x' + Buffer.from(signMessage, 'utf8').toString('hex')
+const response = await supraProvider.signMessage({message:hexString})
 console.log('signMessage response :: ', response)
     if (response) {
       const { publicKey,signature,address } = response
@@ -71,15 +71,15 @@ console.log('signMessage response :: ', response)
 
 ```Typescript
 // Typescript
- const remove0xPrefix = (hexString: string) => {
-    return hexString.startsWith("0x") ? hexString.slice(2) : hexString;
-  }
+const remove0xPrefix = (hexString: string) => {
+  return hexString.startsWith("0x") ? hexString.slice(2) : hexString;
+}
 ```
 Demo LINK: https://frontend-web-wallet-connect-demo.vercel.app/supra-dapp
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 ## ISSUE SUMMARY: Error Code 0x1::resource_account: 0x60001
-Getting error in deploying the contract to testnet while the contracts are build without any error and error code in output is 0x1::resource_account: 0x60001
+Getting error in deploying the contract to testnet while the contracts are built without any error and error code in output is 0x1::resource_account: 0x60001
 
 ### ➥ SOLUTION SUMMARY:
 This error message typically indicates a problem with resource account management within the Move code. In the context of deploying a contract, it likely means that there's an issue with how your contract interacts with the resource accounts.
@@ -92,13 +92,13 @@ https://github.com/Entropy-Foundation/aptos-core/blob/b414eadb54e8e8722e58096f96
 
 It means the container resource that stores the mapping of the resource address to signer capability doesn't exist at the address you are passing
 
-Here is a repo that I used to test the create_resource_account_and_publish_package method 
+Here is a repo that I used to test the create_resource_account_and_publish_package method
 https://github.com/nolan-supra/TS-SDK_Create-Resource-Account-And-Publish-Package
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 ## ISSUE SUMMARY: Move compilation failed: supra move tool compile
 
-Move compilation failed while doing `supra move tool compile --package-dir /supra/configs/move_workspace/PROJECT NAME` 
+Move compilation failed while doing `supra move tool compile --package-dir /supra/configs/move_workspace/PROJECT NAME`
 
 Error message
 ```PowerShell
@@ -118,7 +118,7 @@ Add the dependency like this
    ```
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 ## ISSUE SUMMARY: Call the Modules Deployed on Supra
-An example code or like repo to Call the Modules Deployed on Supra. 
+An example code or like repo to Call the Modules Deployed on Supra.
 
 ## ➥ SOLUTION SUMMARY:
 All of our deployed framework modules are available in the framework folder of the github repo then api endpoint can be used to see which modules are available.
@@ -134,7 +134,7 @@ https://rpc-testnet.supra.com/rpc/v1/accounts/{address}/modules/{module_name}
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 ## ISSUE SUMMARY: Digital Assets Dependency for NFT Dapp
 
-### ➥ SOLUTION SUMMARY: 
+### ➥ SOLUTION SUMMARY:
 these digital assets modules are deployed at the 0x4 address
 
    ```PowerShell
@@ -153,12 +153,12 @@ https://rpc-mainnet.supra.com/rpc/v1/accounts/0x4/modules
 **src:** https://github.com/Entropy-Foundation/aptos-core/blob/dev/aptos-move/framework/aptos-token-objects/sources/token.move
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-## ISSUE SUMMARY: Module for Implementation on a custom coin. 
+## ISSUE SUMMARY: Module for Implementation on a custom coin.
 
-### ➥ SOLUTION SUMMARY: 
+### ➥ SOLUTION SUMMARY:
 A Move Module Made for a liquid swap on supra, Customize and use this to work for your Implementation on a custom coin:
 
-   ```PowerShell
+```Move
 module airdrop_deployer::bitcoin_coin {
     use std::error;
     use std::signer;
@@ -211,7 +211,7 @@ module airdrop_deployer::bitcoin_coin {
         coin::deposit(signer::address_of(user), coins);
     }
 }
-   ```
+```
 
 More details on what's happening here:
 
@@ -222,11 +222,11 @@ More details on what's happening here:
 5. The module ensures strict access control and leverages Move's resource model for safe and efficient token management.
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
-## ISSUE SUMMARY: transfer function stating that account isn't registered
+## ISSUE SUMMARY: Transfer function stating that account isn't registered
 We are creating a token and then registering our account to have a coinstore for that token, it’s still reverting back on transfer function stating that account isn't registered.
 
-### ➥ SOLUTION SUMMARY: 
-The error `account isn't registered` during the transfer function indicates that the recipient address hasn't been registered with the coin module. 
+### ➥ SOLUTION SUMMARY:
+The error `account isn't registered` during the transfer function indicates that the recipient address hasn't been registered with the coin module.
 
 Before like having token transfer and all ensure the recipient address is explicitly registered using the `register` function and If your token design allows for implicit registration, the `transfer` function could potentially register the recipient if they're not already registered. However, this might have security implications and should be carefully considered.
 
@@ -236,10 +236,10 @@ You can check that the `coin module` is accessible to the `transfer` function. E
 ## ISSUE SUMMARY: Calling Supra Coin
 From Supraframework do we have supra coins?
 
-## ➥ SOLUTION SUMMARY: 
+## ➥ SOLUTION SUMMARY:
 
 Yes,
 Use below call for calling Supra coin for the framework
-  ```PowerShell
+```Move
 use supra_framework::supra_coin;
-   ```
+```
